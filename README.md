@@ -128,9 +128,28 @@ Logs include:
 
 ```mermaid
 flowchart TD
-    A[Encoura API] -->|exports| B[Local Download Folder]
-    B -->|*.csv| C[Slate SFTP Server]
-    C --> D[Logs + Cleanup]
+    A[Start Script] --> B[Initialize Session with API Key]
+    B --> C[Login to Encoura API]
+    C -->|sessionToken| D[Retrieve Export List (NotDelivered)]
+    D -->|no exports| L[Log: No files to download] --> Z[End Script]
+    D -->|exports found| E[Fetch Download URLs]
+    E --> F[Download Files]
+    F -->|save locally| G[Write to Download Directory]
+    G -->|*.csv files| H[SFTP Upload to Slate (/incoming/Encoura API Uploads)]
+    H --> I[Delete Local CSVs After Success]
+    I --> Z[End Script]
+
+    %% Logging
+    C --> J[Log: Login Success or Failure]
+    E --> K[Log: Export Retrieval Status]
+    F --> M[Log: File Download Status]
+    H --> N[Log: SFTP Upload Status]
+    I --> O[Log: File Cleanup]
+
+    %% Error Handling
+    C -->|fail| P[Log Error: API Authentication Failure] --> Z
+    F -->|fail| Q[Log Error: Download Failure] --> Z
+    H -->|fail| R[Log Error: SFTP Failure] --> Z
 ```
 
 ---
