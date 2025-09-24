@@ -128,28 +128,29 @@ Logs include:
 
 ```mermaid
 flowchart TD
-    A[Start Script] --> B[Initialize Session with API Key]
+    A[Start script] --> B[Init session with API key]
     B --> C[Login to Encoura API]
-    C -->|sessionToken| D[Retrieve Export List (NotDelivered)]
-    D -->|no exports| L[Log: No files to download] --> Z[End Script]
-    D -->|exports found| E[Fetch Download URLs]
-    E --> F[Download Files]
-    F -->|save locally| G[Write to Download Directory]
-    G -->|*.csv files| H[SFTP Upload to Slate (/incoming/Encoura API Uploads)]
-    H --> I[Delete Local CSVs After Success]
-    I --> Z[End Script]
+    C -->|session token| D[Get exports with status NotDelivered]
+    D -->|none found| L[Log no files to download]
+    L --> Z[End]
 
-    %% Logging
-    C --> J[Log: Login Success or Failure]
-    E --> K[Log: Export Retrieval Status]
-    F --> M[Log: File Download Status]
-    H --> N[Log: SFTP Upload Status]
-    I --> O[Log: File Cleanup]
+    D -->|found| E[Get download URLs]
+    E --> F[Download files]
+    F --> G[Save to download folder]
+    G --> H[Select CSV files]
+    H --> I[SFTP upload to Slate incoming folder]
+    I --> J[Delete local CSVs after success]
+    J --> Z[End]
 
-    %% Error Handling
-    C -->|fail| P[Log Error: API Authentication Failure] --> Z
-    F -->|fail| Q[Log Error: Download Failure] --> Z
-    H -->|fail| R[Log Error: SFTP Failure] --> Z
+    C --> J1[Log login result]
+    E --> K1[Log export retrieval status]
+    F --> M1[Log download status]
+    I --> N1[Log SFTP upload status]
+    J --> O1[Log cleanup]
+    
+    C -->|fail| P1[Error API authentication failure]
+    F -->|fail| Q1[Error download failure]
+    I -->|fail| R1[Error SFTP failure]
 ```
 
 ---
