@@ -18,6 +18,7 @@ It is designed for admissions operations workflows that need to regularly pull d
 - [Logging](#logging)
 - [Error Handling](#error-handling)
 - [File Flow](#file-flow)
+- [Automating](#automating)
 - [License](#license)
 
 ---
@@ -130,6 +131,40 @@ flowchart TD
     B -->|*.csv| C[Slate SFTP Server]
     C --> D[Logs + Cleanup]
 ```
+---
+## Automating
+
+You can configure Windows Task Scheduler to run this script daily without manual intervention.
+
+### Step 1. Open Task Scheduler
+1. Press **Win + R**, type `taskschd.msc`, and press **Enter**.  
+2. In the right-hand pane, click **Create Task…**.
+
+---
+
+### Step 2. General Settings
+- **Name**: e.g., `Encoura File Downloader`  
+- **Description**: Runs the Encoura API downloader and uploads files to Slate.  
+- Check **Run whether user is logged on or not**.  
+- Check **Run with highest privileges**.  
+
+---
+
+### Step 3. Triggers (When to Run)
+1. Go to the **Triggers** tab → click **New…**  
+2. Choose **Daily** (or adjust as needed).  
+3. Set the **Start time** (e.g., 6:00 AM).  
+4. Click **OK**.
+
+---
+
+### Step 4. Actions (What to Run)
+1. Go to the **Actions** tab → click **New…**  
+2. **Action**: Start a program.  
+3. **Program/script**: `python`  
+4. **Add arguments**:  
+   ```bash
+   "C:\Path\To\encoura_downloader.py"
 
 ---
 
