@@ -8,7 +8,7 @@ from urllib.parse import urlparse, unquote
 from pathlib import Path
 
 # Set up logging
-FILENAME = r"C:\Users\cmcgowen\Documents\Code\Encoura API downloads\Upload\Encoura_API_Download.log"
+FILENAME = r"[path to log file]"
 LEVEL = logging.INFO
 FORMAT = "%(asctime)s - %(funcName)s - %(levelname)s - %(message)s"
 logging.basicConfig(filename=FILENAME, level=LEVEL, format=FORMAT)
@@ -19,7 +19,7 @@ ENCOURA_API_KEY = os.environ.get("ENCOURA_API_KEY")
 ENCOURA_ORGANIZATION_UID = os.environ.get("ENCOURA_ORGANIZATION_UID")
 
 # File download configuration
-DOWNLOAD_DIR = r"C:\Users\cmcgowen\Documents\Code\Encoura API downloads\Upload"
+DOWNLOAD_DIR = r"[path to download folder]"
 DOWNLOAD_DIR = Path(DOWNLOAD_DIR)
 
 # Authentication credentials
@@ -162,3 +162,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
